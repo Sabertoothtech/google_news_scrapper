@@ -34,6 +34,7 @@ def connect():
     #     result = engine.execute(sql)
 
     return print("connection success")
+
 def g_cook():
     googleTrendsUrl = 'https://google.com'
     response = requests.get(googleTrendsUrl)
@@ -51,14 +52,15 @@ def google_news():
 
     mycol = mydb["news"]
 
-    g_cook()
+    #g_cook()
 
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5)\
                 AppleWebKit/537.36 (KHTML, like Gecko) Cafari/537.36'}
 
     for i in df['name'].values:
         url = 'https://news.google.com/search?q=' + i
-        page = requests.get(url, headers=headers, cookies=g_cookies)
+        page = requests.get(url, headers=headers)
+        #cookies=g_cookies)
         soup = BeautifulSoup(page.content, 'html.parser')
         remove = "Google News - SearchNewsSign inNewsTop storiesFor youFollowingNews ShowcaseSaved searchesCOVID-19IndiaWorldYour local newsBusinessTechnologyEntertainmentSportsScienceHealthLanguage & regionEnglish (India)SettingsGet the Android appGet the iOS appSend feedbackHelpPrivacy · Terms · About"
         sam = soup.text
@@ -68,9 +70,12 @@ def google_news():
         x = mycol.insert_one(my_d)
         return print(x)
 
-import schedule
-schedule.every(22).seconds.do(google_news)
-import time
-while True:
-    schedule.run_pending()
-    time.sleep(4)
+
+google_news()
+# import schedule
+# schedule.every(2).seconds.do(google_news)
+#
+# import time
+# while True:
+#     schedule.run_pending()
+#     time.sleep(4)
