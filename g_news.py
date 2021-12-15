@@ -34,8 +34,12 @@ def connect():
     #     result = engine.execute(sql)
 
     return print("connection success")
-
-
+def g_cook():
+    googleTrendsUrl = 'https://google.com'
+    response = requests.get(googleTrendsUrl)
+    if response.status_code == 200:
+        global g_cookies
+        g_cookies = response.cookies.get_dict()
 
 
 def google_news():
@@ -47,10 +51,8 @@ def google_news():
 
     mycol = mydb["news"]
 
-    googleTrendsUrl = 'https://google.com'
-    response = requests.get(googleTrendsUrl)
-    if response.status_code == 200:
-        g_cookies = response.cookies.get_dict()
+    g_cook()
+
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5)\
                 AppleWebKit/537.36 (KHTML, like Gecko) Cafari/537.36'}
 
@@ -67,7 +69,7 @@ def google_news():
         return print(x)
 
 import schedule
-schedule.every(2).hours.do(google_news)
+schedule.every(22).seconds.do(google_news)
 import time
 while True:
     schedule.run_pending()

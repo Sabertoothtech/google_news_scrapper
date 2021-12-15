@@ -1,7 +1,7 @@
 pandas
 numpy
 sqlalchemy
-re
+
 pymongo
 bs4
 schedule
